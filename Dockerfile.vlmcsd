@@ -1,0 +1,19 @@
+FROM registry.access.redhat.com/ubi9/ubi as builder
+
+WORKDIR /tmp
+
+RUN dnf install -y git-core gcc && \
+    git clone --depth 1 https://github.com/Wind4/vlmcsd.git && \
+    make -C vlmcsd
+
+# --------- --------- --------- --------- --------- --------- --------- --------- --------- ---------
+
+FROM registry.access.redhat.com/ubi9/ubi
+
+WORKDIR /tmp
+EXPOSE 1688/tcp
+
+COPY --from=builder /tmp/vlmcsd/bin/vlmcs  /usr/local/bin/vlmcs 
+COPY --from=builder /tmp/vlmcsd/bin/vlmcsd /usr/local/bin/vlmcsd
+ENTRYPOINT /usr/local/bin/vlmcsd
+CMD [ "-D", "-e", "-v" ]

@@ -27,17 +27,15 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          file: Dockerfile.slurm
-          target: slurm-control
-          tags: rlinfati/containerfile-lab0:slurm-control-999
-      - uses: docker/build-push-action@v5
-        with:
-          push: true
-          file: Dockerfile.slurm
-          target: slurm-runner
-          tags: rlinfati/containerfile-lab0:slurm-runner-999
-      - uses: docker/build-push-action@v5
-        with:
-          push: true
           file: Dockerfile.samba
           tags: rlinfati/containerfile-lab0:samba-999
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          file: Dockerfile.slurm
+          tags: rlinfati/containerfile-lab0:slurm-999
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          file: Dockerfile.vlmcsd
+          tags: rlinfati/containerfile-lab0:vlmcsd-999

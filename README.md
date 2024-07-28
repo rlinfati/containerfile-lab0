@@ -22,19 +22,18 @@
 ## Samba AD-DC Build & Run
 - sudo podman build --tag rlinfati/containerfile-lab0:samba-999 github.com/rlinfati/containerfile-lab0 --file Dockerfile.samba
 - sudo podman pull docker.io/rlinfati/containerfile-lab0:samba-999
+- sudo podman run --rm --interactive --tty --name sambaNET --replace --volume sambaNET-etc:/etc/samba --volume sambaNET-var:/var/lib/samba --privileged --entrypoint '' docker.io/rlinfati/containerfile-lab0:samba-999 samba-tool domain provision --site podmanNET --domain m0net --realm m0net.home.arpa --option="dns forwarder=8.8.8.8"
+- sudo podman create   --interactive --tty --name sambaNET --replace --volume sambaNET-etc:/etc/samba --volume sambaNET-var:/var/lib/samba --privileged docker.io/rlinfati/containerfile-lab0:samba-999
+- sudo podman start sambaNET
+- sudo podman exec -it sambaNET bash
+- echo -e nameserver 127.0.0.1 \\nsearch m0net.home.arpa > /etc/resolv.conf
+- kinit Administrator@M0NET.M0.CL
+- klist
 
 ## Slurm Build & Run
-- sudo podman build --tag rlinfati/containerfile-lab0:slurm-control-999 github.com/rlinfati/containerfile-lab0 --file Dockerfile.slurm --target slurm-control
-- sudo podman build --tag rlinfati/containerfile-lab0:slurm-runner-999  github.com/rlinfati/containerfile-lab0 --file Dockerfile.slurm --target slurm-runner
-- sudo podman pull docker.io/rlinfati/containerfile-lab0:slurm-control-999
-- sudo podman pull docker.io/rlinfati/containerfile-lab0:slurm-runner-999
-- sudo podman create --interactive --tty --name slurm-control0 --replace --hostname slurm-control0 --volume slurm-shared:/mnt rlinfati/containerfile-lab0:slurm-control-999
-- sudo podman create --interactive --tty --name slurm-runner01 --replace                           --volume slurm-shared:/mnt rlinfati/containerfile-lab0:slurm-runner-999
-- sudo podman create --interactive --tty --name slurm-runner02 --replace                           --volume slurm-shared:/mnt rlinfati/containerfile-lab0:slurm-runner-999
-- sudo podman create --interactive --tty --name slurm-runner03 --replace                           --volume slurm-shared:/mnt rlinfati/containerfile-lab0:slurm-runner-999
-- sudo podman create --interactive --tty --name slurm-runner04 --replace                           --volume slurm-shared:/mnt rlinfati/containerfile-lab0:slurm-runner-999
-- sudo podman start slurm-control0 slurm-runner01 slurm-runner02 slurm-runner03 slurm-runner04
-- sudo podman exec -it slurm-control0 sinfo
-- sudo podman exec -it slurm-control0 sinfo
-- sudo podman exec -it slurm-control0 srun --partition lab0 --nodes 4 uname -a
-- sudo podman stop slurm-control0 slurm-runner01 slurm-runner02 slurm-runner03 slurm-runner04
+- sudo podman build --tag rlinfati/containerfile-lab0:slurm-999 github.com/rlinfati/containerfile-lab0 --file Dockerfile.slurm
+- sudo podman pull docker.io/rlinfati/containerfile-lab0:slurm-999
+- sudo podman create --interactive --tty --name slurm0 --replace --hostname slurm0 rlinfati/containerfile-lab0:slurm-999
+- sudo podman start slurm0
+- sudo podman exec -it slurm0 sinfo
+- sudo podman exec -it slurm0 srun uname -a

@@ -1,3 +1,0 @@
-# /etc/sysconfig/slurmd
-
-SLURMD_OPTIONS="--conf-server slurm-control0 -Z"

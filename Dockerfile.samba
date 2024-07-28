@@ -6,6 +6,7 @@ WORKDIR /tmp/
 RUN dnf install --assumeyes samba-dc krb5-workstation && \
     systemctl disable systemd-resolved && \
     systemctl enable samba && \
+    mv /etc/samba/smb.conf{,.bak} && \
     mv /etc/krb5.conf{,.bak} && \
     ln --symbolic /var/lib/samba/private/krb5.conf /etc/krb5.conf && \
     dnf clean all
