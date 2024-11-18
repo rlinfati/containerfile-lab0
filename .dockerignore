@@ -1,0 +1,10 @@
+# .dockerignore
+.git
+.github
+etc-containers-systemd
+.dockerignore
+.gitignore
+LICENSE
+OLLAMA.md
+README.md
+lab0-refresh.sh
