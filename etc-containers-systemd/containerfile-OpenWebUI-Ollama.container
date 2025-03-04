@@ -1,0 +1,21 @@
+# containerfile-OpenWebUI-Ollama.container
+
+[Container]
+Image=ghcr.io/open-webui/open-webui:ollama
+AutoUpdate=registry
+RunInit=true
+Volume=LLM-ollama:/root/.ollama/models
+ShmSize=1024m
+PodmanArgs=--oom-score-adj=999
+PodmanArgs=--device=nvidia.com/gpu=all
+
+[Install]
+WantedBy=multi-user.target
+
+## ollama model
+# sudo podman exec  --interactive --tty systemd-containerfile-OpenWebUI-Ollama ollama pull gemma2:9b
+# sudo podman exec  --interactive --tty systemd-containerfile-OpenWebUI-Ollama ollama pull llama3.1:8b
+# sudo podman exec  --interactive --tty systemd-containerfile-OpenWebUI-Ollama ollama pull llama3.2:3b
+# sudo podman exec  --interactive --tty systemd-containerfile-OpenWebUI-Ollama ollama pull mistral-nemo:12b
+# sudo podman exec  --interactive --tty systemd-containerfile-OpenWebUI-Ollama ollama pull mistral-small:22b
+# sudo podman exec  --interactive --tty systemd-containerfile-OpenWebUI-Ollama ollama pull deepseek-r1:14b
