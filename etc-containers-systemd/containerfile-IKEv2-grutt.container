@@ -1,0 +1,25 @@
+# containerfile-IKEv2-grutt.container
+
+[Container]
+Image=docker.io/rlinfati/containerfile-lab0:ikev2-tls-999
+AutoUpdate=registry
+Volume=IKEv2-letsencrypt:/etc/letsencrypt
+Volume=IKEv2-swanctl:/etc/strongswan/swanctl
+Network=host
+PodmanArgs=--privileged
+
+[Install]
+WantedBy=multi-user.target
+
+# sudo firewall-cmd --add-service=http --add-service=https --permanent
+# sudo firewall-cmd --add-service=ipsec --permanent
+# sudo firewall-cmd --add-masquerade --permanent
+# sudo firewall-cmd --add-rich-rule='rule family=ipv6 masquerade' --permanent
+
+# sudo podman exec -it systemd-containerfile-IKEv2-grutt bash
+# /opt/certbot/bin/certbot certificates
+# /opt/certbot/bin/certbot certonly --verbose --standalone --domain grutt.menoscero.com --register-unsafely-without-email --agree-tos
+# cp /etc/letsencrypt/live/grutt.menoscero.com/cert.pem /etc/strongswan/swanctl/x509/le-ikev2-srv.crt
+# cp /etc/letsencrypt/live/grutt.menoscero.com/privkey.pem /etc/strongswan/swanctl/private/le-ikev2-srv.key
+# vi /etc/strongswan/swanctl/conf.d/ikev2-grutt.conf
+# systemctl restart strongswan
