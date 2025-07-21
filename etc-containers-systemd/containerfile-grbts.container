@@ -1,7 +1,7 @@
 # containerfile-grbts.container
 
 [Container]
-Image=docker.io/rlinfati/containerfile-lab0:grbts-999
+Image=docker.io/rlinfati/containerfile-lab0:grbts
 AutoUpdate=registry
 Volume=lab0grb:/opt/gurobi
 PublishPort=41954:41954
@@ -12,4 +12,4 @@ PodmanArgs=--pid=host
 [Install]
 WantedBy=multi-user.target
 
-# sudo podman run --rm --mac-address 00:53:ca:ca:ca:fe --hostname lab0-grb --volume lab0grb:/opt/gurobi docker.io/rlinfati/containerfile-lab0:grbts-999 grbgetkey --path /opt/gurobi/ 00000000-0000-0000-0000-000000000000
+# sudo podman run --rm --mac-address 00:53:ca:ca:ca:fe --hostname lab0-grb --volume lab0grb:/opt/gurobi docker.io/rlinfati/containerfile-lab0:grbts grbgetkey --path /opt/gurobi/ 00000000-0000-0000-0000-000000000000

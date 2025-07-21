@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi9/ubi-minimal
 
-ARG GRBVER=12.0
+ARG GRBVERX=12.0
 ARG GRBFILE=gurobi12.0.0_linux64.tar.gz
 
 USER root
@@ -12,9 +12,14 @@ RUN microdnf --assumeyes install nmap-ncat && \
     microdnf --assumeyes install tar gzip && \
     microdnf clean all
 
-RUN curl -O https://packages.gurobi.com/${GRBVER}/${GRBFILE} && \
+ARG GRB1=12
+ARG GRB2=armlinux64
+RUN echo https://packages.gurobi.com/${GRB1}.0/gurobi${GRB1}.0.0_${GRB2}.tar.gz
+
+RUN curl -O https://packages.gurobi.com/${GRBVERX}/${GRBFILE} && \
     tar xf ${GRBFILE} -C /opt && \
     cp /opt/gurobi*/*/bin/{grb_ts,grbgetkey,grbprobe} /usr/local/bin && \
+    ls -la /usr/local/bin && \
     rm -rf ${GRBFILE} /opt/gurobi*
 
 CMD grbprobe && cat /opt/gurobi/gurobi.lic && grb_ts -v -n

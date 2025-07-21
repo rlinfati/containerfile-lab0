@@ -1,7 +1,7 @@
 # containerfile-IKEv2-grutt.container
 
 [Container]
-Image=docker.io/rlinfati/containerfile-lab0:ikev2-tls-999
+Image=docker.io/rlinfati/containerfile-lab0:ikev2-tls
 AutoUpdate=registry
 Volume=IKEv2-letsencrypt:/etc/letsencrypt
 Volume=IKEv2-swanctl:/etc/strongswan/swanctl

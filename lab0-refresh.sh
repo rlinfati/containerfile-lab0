@@ -2,8 +2,8 @@
 
 set -x
 
-sudo podman pull docker.io/rlinfati/containerfile-lab0:grbts-999
-sudo podman pull docker.io/rlinfati/containerfile-lab0:ikev2-tls-999
+sudo podman pull docker.io/rlinfati/containerfile-lab0:grbts
+sudo podman pull docker.io/rlinfati/containerfile-lab0:ikev2-tls
 
 sudo podman image prune --force
 
