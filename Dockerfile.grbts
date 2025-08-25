@@ -23,4 +23,3 @@ RUN curl -O https://packages.gurobi.com/${GRBVERX}/${GRBFILE} && \
     rm -rf ${GRBFILE} /opt/gurobi*
 
 CMD grbprobe && cat /opt/gurobi/gurobi.lic && grb_ts -v -n
-HEALTHCHECK CMD nc -z 127.0.0.1 41954 || exit 1
