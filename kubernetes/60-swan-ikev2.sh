@@ -8,6 +8,7 @@ kubectl apply -f $URLREPO/62-service-ingress.yaml
 kubectl apply -f $URLREPO/63-cert-tls.yaml
 kubectl apply -f $URLREPO/64-config-ikev2-x509ca.yaml
 kubectl apply -f $URLREPO/65-config-ikev2-fenix.yaml
+kubectl apply -f $URLREPO/65-config-ikev2-grutt.yaml
 kubectl apply -f $URLREPO/66-deployment.yaml
 kubectl apply -f $URLREPO/67-service.yaml
 
