@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grb-ts
+  namespace: gurobi-ts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grb-ts
+  template:
+    metadata:
+      labels:
+        app: grb-ts
+    spec:
+      hostname: lab0-grb
+      hostPID: true
+      initContainers:
+      - name: lab0-grb-net
+        image: registry.access.redhat.com/ubi10/ubi
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        command: ["sh", "/usr/local/sbin/fake-grb0.sh"]
+        volumeMounts:
+        - name: gurobi-lic
+          mountPath: /usr/local/sbin/fake-grb0.sh
+          subPath: fake-grb0.sh
+      containers:
+      - name: grb-ts
+        image: docker.io/rlinfati/containerfile-lab0:grbts
+        ports:
+        - containerPort: 41954
+          protocol: TCP
+        volumeMounts:
+        - name: gurobi-lic
+          mountPath: /opt/gurobi/gurobi.lic
+          subPath: gurobi.lic
+      volumes:
+      - name: gurobi-lic
+        secret:
+          secretName: gurobi-lic

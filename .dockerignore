@@ -1,9 +1,9 @@
 # .dockerignore
-.dockerignore
 .git
 .github
+.dockerignore
 .gitignore
+kubernetes
+lab0-refresh.sh
 LICENSE
 README.md
-etc-containers-systemd
-lab0-refresh.sh

@@ -1,1 +1,2 @@
-README.localnet
+# .gitignore
+kubernetes/72-secret-gurobi-lic-local.yaml

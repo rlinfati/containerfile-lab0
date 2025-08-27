@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grb-ts
+  namespace: gurobi-ts
+spec:
+  type: ClusterIP
+  selector:
+    app: grb-ts
+  ports:
+  - port: 41954
+    protocol: TCP
+    targetPort: 41954
+  # allocateLoadBalancerNodePorts: false
+  # externalTrafficPolicy: Local

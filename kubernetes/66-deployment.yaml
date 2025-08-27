@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ikev2-srv
+  namespace: swan-ikev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ikev2-srv
+  template:
+    metadata:
+      labels:
+        app: ikev2-srv
+    spec:
+      initContainers:
+      - name: split-cert
+        image: docker.io/library/busybox:stable
+        command:
+        - sh
+        - -c
+        - |
+          awk '/-----BEGIN CERTIFICATE-----/ {n++} {if (n>1) print > "/out/chain.crt"}' /in/tls.crt 
+        volumeMounts:
+        - name: server-chain
+          mountPath: /out/
+        - name: server-tls
+          mountPath: /in/tls.crt
+          subPath: tls.crt
+      containers:
+      - name: strongswan
+        image: docker.io/rlinfati/containerfile-lab0:ikev2-tls
+        securityContext:
+          privileged: true
+        ports:
+        - name: isakmp
+          containerPort: 500
+          protocol: UDP
+        - name: nat-t
+          containerPort: 4500
+          protocol: UDP
+        volumeMounts:
+        - name: swanctl-ikev2
+          mountPath: /etc/strongswan/swanctl/conf.d/ikev2.conf
+          subPath: ikev2.conf
+        - name: swanctl-ikev2-x509ca
+          mountPath: /etc/strongswan/swanctl/x509ca/m0-0ca-2024.crt
+          subPath: m0-0ca-2024.crt
+        - name: server-chain
+          mountPath: /etc/strongswan/swanctl/x509ca/le-ikev2-chain.crt
+          subPath: chain.crt
+        - name: server-tls
+          mountPath: /etc/strongswan/swanctl/x509/le-ikev2-srv.crt
+          subPath: tls.crt
+        - name: server-tls
+          mountPath: /etc/strongswan/swanctl/private/le-ikev2-srv.key
+          subPath: tls.key
+      volumes:
+      - name: swanctl-ikev2
+        configMap:
+          name: swanctl-ikev2
+      - name: swanctl-ikev2-x509ca
+        configMap:
+          name: swanctl-ikev2-x509ca
+      - name: server-tls
+        secret:
+          secretName: server-tls
+      - name: server-chain
+        emptyDir: {}
